@@ -8,7 +8,7 @@ body,
     min-width: 1366px;
 }
 
-.el-breadcrumb{
+.el-breadcrumb {
     margin-bottom: 15px;
     font-size: 12px;
 }
@@ -24,4 +24,8 @@ body,
 
 .el-pagination {
     margin-top: 15px;
+}
+
+.el-cascader-menu {
+    height: 300px;
 }
