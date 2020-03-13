@@ -42,7 +42,7 @@
               size="mini"
               type="primary"
               icon="el-icon-edit"
-              @click="showEditDialog(scope.row.goods_id)"
+              @click="goUpdatePage(scope.row.goods_id)"
             ></el-button>
             <el-button
               size="mini"
@@ -97,7 +97,6 @@ export default {
       this.goodsList = res.data.goods
       this.total = res.data.total
     },
-    showEditDialog() {},
     async removeById(id) {
       // this.$confirm
       const confirmResult = await this.$confirm(
@@ -131,6 +130,9 @@ export default {
     },
     goAddPage() {
       this.$router.push('/goods/add')
+    },
+    goUpdatePage(id) {
+      this.$router.push('/goods/update?id=' + id)
     }
   }
 }
