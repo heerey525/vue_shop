@@ -2,11 +2,11 @@
   <div>
     <!-- 面包屑导航区域 -->
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/home' }">{{$t('home')}}</el-breadcrumb-item>
       <el-breadcrumb-item>
-        <a>商品管理</a>
+        <a>{{$t('goods_manage')}}</a>
       </el-breadcrumb-item>
-      <el-breadcrumb-item>商品列表</el-breadcrumb-item>
+      <el-breadcrumb-item>{{$t('goods_List')}}</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 卡片视图区域 -->
     <el-card>
@@ -14,7 +14,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-input
-            placeholder="请输入内容"
+            :placeholder="$t('please_input_content')"
             class="input-with-select"
             v-model="queryInfo.query"
             clearable
@@ -24,19 +24,19 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="goAddPage">添加商品</el-button>
+          <el-button type="primary" @click="goAddPage">{{$t('add_good')}}</el-button>
         </el-col>
       </el-row>
       <!-- 商品列表区域 -->
       <el-table :data="goodsList" style="width: 100%" border stripe>
         <el-table-column type="index" label="#"></el-table-column>
-        <el-table-column prop="goods_name" label="商品名称"></el-table-column>
-        <el-table-column width="95px" prop="goods_price" label="商品价格（元）"></el-table-column>
-        <el-table-column width="70px" prop="goods_weight" label="商品重量"></el-table-column>
-        <el-table-column width="140px" prop="add_time" label="创建时间">
+        <el-table-column prop="goods_name" :label="$t('goods_name')"></el-table-column>
+        <el-table-column width="130px" prop="goods_price" :label="$t('goods_price')"></el-table-column>
+        <el-table-column width="120px" prop="goods_weight" :label="$t('goods_weight')"></el-table-column>
+        <el-table-column width="160px" prop="add_time" :label="$t('create_time')">
           <template slot-scope="scope">{{ scope.row.add_time | dateFormat }}</template>
         </el-table-column>
-        <el-table-column width="130px" label="操作">
+        <el-table-column width="130px" :label="$t('operate')">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -91,7 +91,7 @@ export default {
         params: this.queryInfo
       })
       if (res.meta.status !== 200) {
-        return this.$message.error('获取商品列表失败！')
+        return this.$message.error(this.$t('Failed_to_get_product_list'))
       }
       console.log('ss', res)
       this.goodsList = res.data.goods
@@ -100,24 +100,24 @@ export default {
     async removeById(id) {
       // this.$confirm
       const confirmResult = await this.$confirm(
-        '此操作将永久删除该商品, 是否继续?',
-        '提示',
+        this.$t('delete_product_continue'),
+        this.$t('tips'),
         {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+          confirmButtonText: this.$t('yes'),
+          cancelButtonText: this.$t('no'),
           type: 'warning'
         }
       ).catch(err => {
         return err
       })
       if (confirmResult === 'cancel') {
-        return this.$message.info('已取消删除！')
+        return this.$message.info(this.$t('deleted'))
       }
       const { data: res } = await this.$http.delete('goods/' + id)
       if (res.meta.status !== 200) {
-        return this.$message.error('删除商品失败！')
+        return this.$message.error(this.$t('Failed_to_delete_product'))
       }
-      this.$message.success('删除商品成功！')
+      this.$message.success(this.$t('Successfully_deleted_product'))
       this.getGoodsList()
     },
     handleSizeChange(newSize) {

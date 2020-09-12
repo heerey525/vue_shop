@@ -6,7 +6,18 @@
         <img class="header-img" src="../assets/logo.png" alt />
         <span>电商后台管理系统</span>
       </div>
-      <el-button type="info" round @click="logout">退出</el-button>
+      <div>
+        <el-select v-model="language" placeholder="请选择" @change="langChange">
+          <el-option
+            v-for="item in langOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-button type="info" round @click="logout">退出</el-button>
+      </div>
+
     </el-header>
     <!-- 页面主体 -->
     <el-container>
@@ -60,6 +71,7 @@
 </template>
 
 <script>
+import { localSave } from '@/libs/util'
 export default {
   data() {
     return {
@@ -72,12 +84,18 @@ export default {
         145: 'iconfont icon-baobiao'
       },
       isCollapse: false,
-      activePath: ''
+      activePath: '',
+      langOptions: [
+        { value: 'zh-CN', label: '中文' },
+        { value: 'en-US', label: 'English' }
+      ],
+      language: 'zh-CN'
     }
   },
   mounted() {
     this.getMenuList()
     this.activePath = window.sessionStorage.getItem('activePath')
+    this.language = this.$i18n.locale
   },
   methods: {
     logout() {
@@ -99,6 +117,10 @@ export default {
     saveNavState(activePath) {
       window.sessionStorage.setItem('activePath', activePath)
       this.activePath = activePath
+    },
+    langChange(val) {
+      this.$i18n.locale = val
+      localSave('local', val)
     }
   }
 }
@@ -126,6 +148,10 @@ export default {
     span {
       margin-left: 15px;
     }
+  }
+  .el-select {
+    width: 100px;
+    margin-right: 10px;
   }
 }
 .el-aside {

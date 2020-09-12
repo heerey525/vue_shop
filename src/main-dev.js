@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import i18n from './locale'
 import './plugins/element.js'
 // 导入字体图标
 import './assets/fonts/iconfont.css'
@@ -14,13 +15,15 @@ import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+
+// --------开始  如果用了进一步封装的axios（src/libs/axios    src/api），这里就不需要了--------
 // 导入NProgress包和对应css
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-
 import axios from 'axios'
 // 配置请求的根路径
-axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
+const nowBaseUrl = process.env.NODE_ENV === 'development' ? window.Glob.baseUrl.dev : window.Glob.baseUrl.pro
+axios.defaults.baseURL = nowBaseUrl
 // 在拦截器中，展示进度条
 axios.interceptors.request.use(config => {
   NProgress.start()
@@ -33,6 +36,12 @@ axios.interceptors.response.use(config => {
   return config
 })
 Vue.prototype.$http = axios
+// --------结束  如果用了进一步封装的axios（src/libs/axios    src/api），这里就不需要了--------
+
+/**
+ * @description 全局注册抽离的外部配置
+ */
+Vue.prototype.$_global = window.Glob
 
 Vue.config.productionTip = false
 
@@ -53,5 +62,6 @@ Vue.filter('dateFormat', function() {
 
 new Vue({
   router,
+  i18n,
   render: h => h(App)
 }).$mount('#app')

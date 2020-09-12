@@ -137,6 +137,7 @@
 </template>
 
 <script>
+import { users } from '@/api/users'
 export default {
   data() {
     var checkEmail = (rule, value, cb) => {
@@ -219,16 +220,35 @@ export default {
     this.getUserList()
   },
   methods: {
-    // 获取用户信息
-    async getUserList() {
-      const { data: res } = await this.$http.get('users', {
-        params: this.queryInfo
+    // 获取用户信息 axios封装之前的
+    // async getUserList() {
+    //   const { data: res } = await this.$http.get('users', {
+    //     params: this.queryInfo
+    //   })
+    //   if (res.meta.status !== 200) {
+    //     return this.$message.error('获取用户列表失败！')
+    //   }
+    //   this.userList = res.data.users
+    //   this.total = res.data.total
+    // },
+    // 获取用户信息 将axios封装之后的
+    getUserList() {
+      users(this.queryInfo).then(res => {
+        if (res.status === 200) {
+          const data = res.data
+          if (data.meta.status === 200) {
+            this.userList = data.data.users
+            this.total = data.data.total
+          } else {
+            return this.$message.error('获取用户列表失败！')
+          }
+        } else {
+          return this.$message.error('获取用户列表失败！')
+        }
       })
-      if (res.meta.status !== 200) {
-        return this.$message.error('获取用户列表失败！')
-      }
-      this.userList = res.data.users
-      this.total = res.data.total
+        .catch(() => {
+          return this.$message.error('获取用户列表失败！')
+        })
     },
     handleSizeChange(newSize) {
       this.queryInfo.pagesize = newSize

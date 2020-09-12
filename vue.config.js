@@ -1,3 +1,7 @@
+const path = require('path')
+const resolve = dir => {
+  return path.join(__dirname, dir)
+}
 
 module.exports = {
   // 基本路径
@@ -9,6 +13,9 @@ module.exports = {
   // webpack配置
   // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
   chainWebpack: config => {
+    config.resolve.alias
+      .set('@', resolve('src')) // key,value自行定义，比如.set('@@', resolve('src/components'))
+      .set('_c', resolve('src/components'))
     // 发布模式
     config.when(process.env.NODE_ENV === 'production', config => {
       config

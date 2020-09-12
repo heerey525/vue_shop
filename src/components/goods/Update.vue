@@ -149,7 +149,7 @@ export default {
       manyTableData: [],
       onlyTableData: [],
       // 上传图片url地址
-      uploadURL: 'http://127.0.0.1:8888/api/private/v1/upload',
+      uploadURL: process.env.NODE_ENV === 'development' ? (window.Glob.baseUrl.dev + 'upload') : (window.Glob.baseUrl.pro + 'upload'),
       headerObj: {
         Authorization: window.sessionStorage.getItem('token')
       },
@@ -173,7 +173,7 @@ export default {
       this.addForm = res.data
       this.addForm.goods_cat = res.data.goods_cat.split(',')
       this.addForm.goods_cat = this.addForm.goods_cat.map(Number)
-      console.log('获取商品信息', res.data)
+      // console.log('获取商品信息', res.data)
     },
     // 获取商品分类
     async getCateList() {

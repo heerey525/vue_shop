@@ -1,0 +1,20 @@
+export default {
+  home: '首页',
+  goods_manage: '商品管理',
+  goods_List: '商品列表',
+  please_input_content: '请输入内容',
+  add_good: '添加商品',
+  goods_name: '商品名称',
+  goods_price: '商品价格（元）',
+  goods_weight: '商品重量',
+  create_time: '创建时间',
+  operate: '操作',
+  Failed_to_get_product_list: '获取商品列表失败！',
+  delete_product_continue: '此操作将永久删除该商品, 是否继续?',
+  tips: '提示',
+  yes: '确定',
+  no: '取消',
+  deleted: '已取消删除！',
+  Failed_to_delete_product: '删除商品失败！',
+  Successfully_deleted_product: '删除商品成功！'
+}

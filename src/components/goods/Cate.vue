@@ -283,7 +283,7 @@ export default {
       }
       this.$message.success('删除商品分类成功！')
       this.getCateList()
-    },
+    }
   }
 }
 </script>
